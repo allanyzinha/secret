@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voucher Especial de Amor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f9fafb;
+            background-image: radial-gradient(#fee2e2 0.5px, transparent 0.5px), radial-gradient(#fee2e2 0.5px, #f9fafb 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+        .script-font {
+            font-family: 'Dancing Script', cursive;
+        }
+        .voucher {
+            background: linear-gradient(135deg, #ffffff, #fef2f2);
+            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.2);
+            transition: all 0.3s ease;
+            border: 1px solid #fecaca;
+        }
+        .voucher:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(220, 38, 38, 0.3);
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #dc2626;
+            opacity: 0;
+            animation: confetti-fall 5s ease-in-out infinite;
+        }
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(500px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        .kiss-btn {
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .kiss-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(220, 38, 38, 0.3);
+        }
+        .kiss-btn:active {
+            transform: scale(0.95);
+        }
+        .kiss-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: transform 0.5s, opacity 0.5s;
+        }
+        .kiss-btn:active::after {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        .redeemed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        .redeemed.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .heart-burst {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 30;
+            display: none;
+        }
+        .heart-burst.show {
+            display: block;
+        }
+        .flying-heart {
+            position: absolute;
+            font-size: 24px;
+            animation: fly-heart 2s forwards ease-out;
+        }
+        @keyframes fly-heart {
+            0% {
+                transform: translate(0, 0) scale(0.5) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(var(--rot));
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div id="confetti-container" class="fixed inset-0 pointer-events-none"></div>
+    <div id="heart-burst" class="heart-burst"></div>
+    
+    <div class="voucher relative max-w-md w-full rounded-2xl p-8 z-10">
+        <div class="redeemed" id="redeemed">
+            <div class="script-font text-5xl text-red-600 font-bold mb-4">Voucher Resgatado!</div>
+            <div class="text-xl text-gray-700 mb-6">Com um beijo cheio de amor ❤️</div>
+            <button id="reset-btn" class="px-6 py-2 bg-red-100 text-red-600 rounded-full hover:bg-red-200 transition-colors">Voltar</button>
+        </div>
+        
+        <div class="text-center">
+            <h1 class="script-font text-4xl md:text-5xl font-bold text-red-600 mb-2">💌 Presente de Dia dos Namorados 💌</h1>
+            
+            <div class="bg-white backdrop-blur-sm rounded-xl p-6 mb-6 shadow-md border border-red-100">
+                <p class="text-lg text-gray-700 mb-4">Te preparei um voucher de</p>
+                <p class="text-4xl font-bold text-red-600 mb-4">R$ 300 🥰</p>
+                <div class="bg-red-50 rounded-lg p-4 mb-4 border border-red-100">
+                    <p class="text-gray-700">E o melhor (pra mim): já está parcelado em</p>
+                    <p class="text-xl font-semibold text-red-600">3x de R$ 100 no seu cartão, haha</p>
+                    <p class="text-sm text-gray-600">– Pra facilitar e ainda assim te mimar do jeitinho que você merece! 💳❤️</p>
+                </div>
+                
+                <p class="text-gray-700 mb-4">Use quando quiser, do jeito que quiser.</p>
+                <p class="italic text-gray-700">Porque te ver feliz não tem preço... mas tem parcelinha 😄❤️</p>
+            </div>
+            
+            <div class="script-font text-right text-2xl text-red-600 font-semibold mb-8">
+                Com amor,<br>
+                Allany ❤️
+            </div>
+            
+            <button id="kiss-btn" class="kiss-btn w-full py-4 rounded-xl text-white font-bold text-lg shadow-lg flex items-center justify-center gap-2">
+                <span>Resgatar com um Beijo</span>
+                <span class="text-2xl">💋</span>
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // Create confetti effect
+        function createConfetti() {
+            const container = document.getElementById('confetti-container');
+            const colors = ['#dc2626', '#b91c1c', '#991b1b', '#ef4444', '#fee2e2'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                
+                // Random position, color, size and delay
+                const left = Math.random() * 100;
+                const size = Math.random() * 8 + 4;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const delay = Math.random() * 5;
+                
+                confetti.style.left = `${left}%`;
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.backgroundColor = color;
+                confetti.style.animationDelay = `${delay}s`;
+                
+                container.appendChild(confetti);
+            }
+        }
+        
+        // Create heart shapes for some confetti
+        function createHeartConfetti() {
+            const container = document.getElementById('confetti-container');
+            
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('confetti');
+                heart.innerHTML = '❤️';
+                heart.style.background = 'transparent';
+                heart.style.fontSize = `${Math.random() * 12 + 10}px`;
+                
+                const left = Math.random() * 100;
+                const delay = Math.random() * 5;
+                
+                heart.style.left = `${left}%`;
+                heart.style.animationDelay = `${delay}s`;
+                
+                container.appendChild(heart);
+            }
+        }
+        
+        // Create heart burst effect
+        function createHeartBurst() {
+            const container = document.getElementById('heart-burst');
+            container.innerHTML = '';
+            container.classList.add('show');
+            
+            const heartEmojis = ['❤️', '💕', '💖', '💗', '💓', '💘', '💝'];
+            
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('flying-heart');
+                
+                // Get button position
+                const btn = document.getElementById('kiss-btn');
+                const rect = btn.getBoundingClientRect();
+                const startX = rect.left + rect.width / 2;
+                const startY = rect.top + rect.height / 2;
+                
+                // Random direction and distance
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 100 + Math.random() * 200;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                const rot = -30 + Math.random() * 60;
+                
+                heart.style.setProperty('--tx', `${tx}px`);
+                heart.style.setProperty('--ty', `${ty}px`);
+                heart.style.setProperty('--rot', `${rot}deg`);
+                
+                heart.style.left = `${startX}px`;
+                heart.style.top = `${startY}px`;
+                
+                // Random heart emoji and delay
+                heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                heart.style.animationDelay = `${Math.random() * 0.5}s`;
+                
+                container.appendChild(heart);
+            }
+            
+            setTimeout(() => {
+                container.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createConfetti();
+            createHeartConfetti();
+            
+            // Add hover effect to voucher
+            const voucher = document.querySelector('.voucher');
+            voucher.addEventListener('mouseenter', () => {
+                createConfetti();
+            });
+            
+            // Kiss button
+            const kissBtn = document.getElementById('kiss-btn');
+            const redeemed = document.getElementById('redeemed');
+            const resetBtn = document.getElementById('reset-btn');
+            
+            kissBtn.addEventListener('click', () => {
+                createHeartBurst();
+                
+                // Show redeemed message after a short delay
+                setTimeout(() => {
+                    redeemed.classList.add('show');
+                }, 1000);
+            });
+            
+            // Reset button
+            resetBtn.addEventListener('click', () => {
+                redeemed.classList.remove('show');
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94d254fb45dbf1b1',t:'MTc0OTQ4OTk2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
